@@ -6,7 +6,6 @@ import com.yudy.centaur.util.PropertiesUtil;
 import java.util.Properties;
 
 public class ServerConfig extends Config {
-    Properties prop;
 
     public ServerConfig(Properties prop) {
         super(prop);

@@ -5,6 +5,7 @@ import com.yudy.centaur.util.Constance;
 import org.apache.log4j.Logger;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -27,6 +28,8 @@ public class Server<T> {
 
     private final  String CLENN_SHUTDOWN_FILE=Constance.CLEAN_SHUTDOWN_FILE;
 
+    private ThreadManager<T> threadManager;
+
     public Server(ServerConfig config) {
         this.config = config;
         logDir=new File(config.getLogDir());
@@ -47,6 +50,15 @@ public class Server<T> {
             needRecovery=false;
             cleanShutDownFile.delete();
         }
+
+        try {
+            threadManager=new ThreadManager<T>(config,needRecovery);
+//            threadManager
+        } catch (IOException e) {
+            LOG.error("无法初始化ThreadManager,原因如下"+e.getMessage());
+            e.printStackTrace();
+        }
+
 
 
 

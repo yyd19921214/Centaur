@@ -47,5 +47,11 @@ public class PropertiesUtil {
         return prop.getProperty(param, defaultVal);
     }
 
+    public static long getLong(Properties prop,String param,long defaultVal){
+        String defaultLong=String.valueOf(defaultVal);
+        return Long.parseLong(prop.getProperty(param,defaultLong));
+
+    }
+
 
 }
