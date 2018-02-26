@@ -56,11 +56,12 @@ public class ThreadManager<T> implements Closeable {
             //TODO
         }
 
+    }
 
-
-
-
-
+    public void start(){
+        for(int i=0;i<mqConsumerNum;i++){
+//            servicePool.execute(new M);
+        }
     }
 
 
