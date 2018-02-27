@@ -11,70 +11,65 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * 服务器类，负责启动各种Netty监听服务，各种系统线程
+ *
  * @param <T>
  */
 public class Server<T> {
     private final ServerConfig config;
 
-    private final Logger LOG= Logger.getLogger(Server.class);
+    private final Logger LOG = Logger.getLogger(Server.class);
 
     private final File logDir;
 
-    private int port=-1;
+    private int port = -1;
 
-    private final CountDownLatch shutdownLatch=new CountDownLatch(1);
+    private final CountDownLatch shutdownLatch = new CountDownLatch(1);
 
-    private final AtomicBoolean isShuttingDown=new AtomicBoolean(false);
+    private final AtomicBoolean isShuttingDown = new AtomicBoolean(false);
 
-    private final  String CLENN_SHUTDOWN_FILE=Constance.CLEAN_SHUTDOWN_FILE;
+    private final String CLENN_SHUTDOWN_FILE = Constance.CLEAN_SHUTDOWN_FILE;
 
     private ThreadManager<T> threadManager;
 
     public Server(ServerConfig config) {
         this.config = config;
-        logDir=new File(config.getLogDir());
-        if(!logDir.exists()){
+        logDir = new File(config.getLogDir());
+        if (!logDir.exists()) {
             LOG.warn("没有创建存放日志持久化的文件夹!!!系统正在创建");
             logDir.mkdir();
         }
-        port=config.getPort();
+        port = config.getPort();
 
     }
 
-    public void startup(){
-        final long startms=System.currentTimeMillis();
-        LOG.info("启动日志服务器"+port);
-        // 本地是否存在.cleanshutdown文件，如果存在，表明上一次是正常关闭
-        boolean needRecovery=true;
-        File cleanShutDownFile=new File(new File(config.getLogDir()),CLENN_SHUTDOWN_FILE);
-        if(cleanShutDownFile.exists()){
-            needRecovery=false;
-            cleanShutDownFile.delete();
-        }
-
+    public void startup() {
         try {
-            threadManager=new ThreadManager<T>(config,needRecovery);
+            final long startms = System.currentTimeMillis();
+            LOG.info("启动日志服务器" + port);
+            // 本地是否存在.cleanshutdown文件，如果存在，表明上一次是正常关闭
+            boolean needRecovery = true;
+            File cleanShutDownFile = new File(new File(config.getLogDir()), CLENN_SHUTDOWN_FILE);
+            if (cleanShutDownFile.exists()) {
+                needRecovery = false;
+                cleanShutDownFile.delete();
+            }
+            threadManager = new ThreadManager<T>(config, needRecovery);
             threadManager.start();
+
+
         } catch (IOException e) {
-            LOG.error("无法初始化ThreadManager,原因如下"+e.getMessage());
+            LOG.error("无法初始化ThreadManager,原因如下" + e.getMessage());
             e.printStackTrace();
         }
-
-
-
-
-
-
-
-
     }
 
-    public void close(){;}
-
-    public void awaitShutDown() throws InterruptedException{
+    public void close() {
         ;
     }
 
+    public void awaitShutDown() throws InterruptedException {
+        ;
+    }
 
 
 }

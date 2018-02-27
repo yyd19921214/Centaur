@@ -7,4 +7,10 @@ public class Constance {
 
     public static final String CLEAN_SHUTDOWN_FILE="";
 
+    public static final String LOG_TYPE_PB="";
+
+    public static final String LOG_TYPE_JSON="";
+
+
+
 }
