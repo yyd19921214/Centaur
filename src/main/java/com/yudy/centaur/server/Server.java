@@ -38,6 +38,7 @@ public class Server<T> {
             logDir.mkdir();
         }
         port=config.getPort();
+
     }
 
     public void startup(){
