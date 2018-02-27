@@ -1,6 +1,8 @@
 package com.yudy.centaur.server;
 
 import com.yudy.centaur.db.PersistThread;
+import com.yudy.centaur.db.mongo.MongoConfig;
+import com.yudy.centaur.db.mongo.MongoUtil;
 import com.yudy.centaur.log.LogConfig;
 import com.yudy.centaur.monitor.MonitorHandler;
 import com.yudy.centaur.mq.MQConfig;
@@ -57,6 +59,7 @@ public class ThreadManager<T> implements Closeable {
         if (needRecovery) {
             //TODO
         }
+        MongoUtil.init(new MongoConfig(config.getProp()));
 
     }
 
