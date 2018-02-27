@@ -1,5 +1,6 @@
 package com.yudy.centaur.db;
 
+import com.alibaba.fastjson.JSON;
 import com.yudy.centaur.log.LogConfig;
 import org.apache.log4j.Logger;
 
@@ -34,10 +35,17 @@ public class PersistThread<T> extends Thread{
             for(int i=0;i<tempList.size();i++){
                 out=isFile2Big(file,logMaxSize,out);
                 T logData=tempList.get(i);
-//                byte[] bys=
+                byte[] bys= JSON.toJSONBytes(logData);
+                out.write(bys);
+                tempList.remove(i);
             }
+            tempList.clear();
+            out.close();
         } catch (IOException e) {
             e.printStackTrace();
+            LOG.error("将mq中日志写入到文件出错，正在将剩下的日志，大小为:" + tempList.size() + "写回到mq"
+                    + e.getMessage(), e);
+            mq.addAll(tempList);
         }
     }
 

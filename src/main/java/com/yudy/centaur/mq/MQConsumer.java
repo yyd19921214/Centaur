@@ -1,5 +1,6 @@
 package com.yudy.centaur.mq;
 
+import com.yudy.centaur.db.PersistThread;
 import com.yudy.centaur.db.SaveAdaptor;
 import com.yudy.centaur.log.LogConfig;
 
@@ -31,7 +32,7 @@ public class MQConsumer<T> implements Runnable {
         this.config = mqConfig;
         sleepTime = config.getSleepTime();
         mqBatchSize = config.getBatchSize();
-        tempList = new ArrayList<T>(mqBatchSize);
+        tempList = new ArrayList<>(mqBatchSize);
         logConfig = new LogConfig(config.getProp());
     }
 
@@ -39,12 +40,12 @@ public class MQConsumer<T> implements Runnable {
     public void run() {
         for (; ; ) {
             if (mq.size() >= mqBatchSize) {
-                int drainNum = mq.drainTo(tempList, mqBatchSize);
+                mq.drainTo(tempList, mqBatchSize);
                 lastDrainTime = System.currentTimeMillis();
                 flag = true;
                 boolean result = SaveAdaptor.save2MongoDB(tempList);
                 if (!result) {
-                    //TODO
+                    new PersistThread<>(mq,tempList,logConfig).start();
                 }
             } else {
                 //TODO
@@ -60,7 +61,7 @@ public class MQConsumer<T> implements Runnable {
                 mq.drainTo(tempList,mqBatchSize);
                 boolean result=SaveAdaptor.save2MongoDB(tempList);
                 if(!result){
-                    //TODO
+                    new PersistThread<>(mq,tempList,logConfig).start();
                 }
 
             }

@@ -54,11 +54,15 @@ public class Server<T> {
 
         try {
             threadManager=new ThreadManager<T>(config,needRecovery);
-//            threadManager
+            threadManager.start();
         } catch (IOException e) {
             LOG.error("无法初始化ThreadManager,原因如下"+e.getMessage());
             e.printStackTrace();
         }
+
+
+
+
 
 
 
