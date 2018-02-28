@@ -24,6 +24,7 @@ public class NettyServer<T> extends Thread implements Closeable{
     }
 
     public NettyServer(ThreadManager<T> threadManager,ServerConfig config){
+
         this.threadManager=threadManager;
         this.config=config;
         this.port=config.getPort();
