@@ -39,7 +39,7 @@ public class NettyServer<T> extends Thread implements Closeable{
         try{
             ServerBootstrap b=new ServerBootstrap();
             b.option(ChannelOption.SO_BACKLOG,1024);
-            ChannelHandler childHandler=null;
+            ChannelHandler childHandler;
             if(logTransferType.equalsIgnoreCase(Constance.LOG_TYPE_PB))
             {
                 //TODO
