@@ -11,6 +11,8 @@ public class Constance {
 
     public static final String LOG_TYPE_JSON="";
 
+    public static final String WEB_ROOT="";
+
 
 
 }
