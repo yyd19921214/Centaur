@@ -59,7 +59,7 @@ public class ServiceConsumer {
             }
         });
         List<String> dataList=new ArrayList<>();
-        
+
     }
 
 
