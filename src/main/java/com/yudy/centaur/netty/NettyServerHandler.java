@@ -8,7 +8,6 @@ import com.yudy.centaur.server.ThreadManager;
 import com.yudy.centaur.util.Serialization;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.handler.codec.http.HttpRequest;
 
 import java.util.ArrayList;
 import java.util.List;
